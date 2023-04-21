@@ -1,24 +1,57 @@
 {
-	"name": "WordPress Development",
+	"name": "WP/Woo based on docker-compose",
 
-	"dockerComposeFile": "../docker-compose.yml",
-
+	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	"dockerComposeFile": [
+		"docker-compose.yml"
+	],
 	"service": "wordpress",
 
-	"workspaceFolder": "/var/www/html/",
+	"workspaceFolder": "/workspace",
 
     "customizations": {
         "vscode": {
             "settings": {
-                "php.suggest.basic": false
+                "php.suggest.basic": false,
+                "sqltools.connections": [{
+                    "name": "Container database",
+                    "driver": "MySQL",
+                    "previewLimit": 50,
+                    "server": "localhost", // for codespaces this should be probably localhost
+                    "port": 3306,
+                    "database": "wordpress",
+                    "username": "root",
+                    "password": "password"
+                }]
             },
             "extensions": [
-                "felixfbecker.php-pack",
-                "johnbillion.vscode-wordpress-hooks",
-                "wordpresstoolbox.wordpress-toolbox"
+                "xdebug.php-pack",
+                "bmewburn.vscode-intelephense-client",
+                "wordpresstoolbox.wordpress-toolbox",
+                "hridoy.wordpress",
+		        "johnbillion.vscode-wordpress-hooks",
+                "mtxr.sqltools",
+		        "mtxr.sqltools-driver-mysql"
             ]
         }
     },
 
-	"remoteUser": "vscode"
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [80, 3306],
+
+	// Uncomment the next line if you want start specific services in your Docker Compose config.
+	// "runServices": [],
+
+	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+	// "shutdownAction": "none",
+
+	"postCreateCommand": "sudo chown -R vscode:vscode .",
+
+	"postStartCommand": "bin/post-start.sh",
+
+	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode",
+
+    // allow bind mounts within /workspaces folder
+	"remoteEnv": { "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}" }
 }
