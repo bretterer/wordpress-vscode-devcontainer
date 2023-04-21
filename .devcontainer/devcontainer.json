@@ -1,0 +1,24 @@
+{
+	"name": "WordPress Development",
+
+	"dockerComposeFile": "../docker-compose.yml",
+
+	"service": "wordpress",
+
+	"workspaceFolder": "/var/www/html/",
+
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "php.suggest.basic": false
+            },
+            "extensions": [
+                "felixfbecker.php-pack",
+                "johnbillion.vscode-wordpress-hooks",
+                "wordpresstoolbox.wordpress-toolbox"
+            ]
+        }
+    },
+
+	"remoteUser": "vscode"
+}
